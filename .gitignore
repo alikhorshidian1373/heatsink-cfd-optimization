@@ -1,0 +1,20 @@
+# ANSYS working files (large, machine-specific)
+*.cas
+*.cas.h5
+*.dat
+*.dat.h5
+*.msh
+*.wbpj
+*.wbpz
+*_files/
+dp0/
+*.lock
+*.trn
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+outputs/
+.venv/
