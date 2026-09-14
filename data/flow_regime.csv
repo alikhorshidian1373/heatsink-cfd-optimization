@@ -1,0 +1,7 @@
+V_m_s,Re_Dh,Re_L,channel_regime
+1.00,588.22,4107.52,laminar
+2.00,1176.44,8215.04,laminar
+3.00,1764.66,12322.57,laminar
+4.00,2352.88,16430.09,transitional
+5.00,2941.10,20537.61,transitional
+6.00,3529.32,24645.13,transitional

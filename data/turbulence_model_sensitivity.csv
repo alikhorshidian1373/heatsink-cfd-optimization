@@ -1,0 +1,5 @@
+velocity_m_s,model,Tmax_K,R_th_K_per_W,dP_Pa,yplus_max,mean_intermittency
+1,k-omega SST,341,2.04999,0.0247929,0.71058,
+1,Transition SST,340.25,2.01249,0.0253315,0.71574,0.034442
+6,k-omega SST,315.74,0.786996,0.617657,2.6686,
+6,Transition SST,315.59,0.779484,0.612179,2.70799,0.044131

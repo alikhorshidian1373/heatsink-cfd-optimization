@@ -11,6 +11,7 @@ dp0/
 *.lock
 *.trn
 *.log
+*.zip
 
 # Python
 __pycache__/

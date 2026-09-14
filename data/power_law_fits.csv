@@ -1,0 +1,4 @@
+quantity,coefficient,exponent,max_deviation_pct,units
+R_th,2.08331,-0.534164,1.65128,K/W
+dP,0.0239664,1.79505,3.33378,Pa
+P_pump,0.0007976,2.79505,3.33378,W
