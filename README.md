@@ -335,52 +335,7 @@ now sit on the result: **1.75 % discretisation** and **≈ 2 % model form**.
 
 ---
 
-## 7 · What changed since the first version, and what it cost
-
-The first version of this study reported a velocity sweep on a tetrahedral mesh
-of 417 997 cells (its own README's figure), with **no inflation layers**, an
-unmeasured y+, no grid-convergence study and no model-sensitivity check.
-Rebuilding it exposed three faults, in ascending order of how much they
-mattered.
-
-**1 · The geometry had a defect that had silently blocked meshing for weeks.**
-Share-topology, body merging and the tetrahedral fill had all been failing on
-the assembly, with 7 659 self-intersecting faces reported at a repeating
-coordinate. The cause was found by measuring between the bodies: the five fin
-solids sat at **0.05°–0.07° to the base**, opening a wedge gap that ran from
-zero to 73 µm along each fin root. Every downstream failure followed from that.
-Rebuilding the fins as pulled features on the base body instead of separate
-solids produced a watertight assembly that Fluent meshed in five seconds —
-2 fluid/solid regions, 0 voids, 0 marked faces.
-
-**2 · Without prism layers, the near-wall gradients were unresolved, and the
-error was systematic.** The corrected geometry accepted 8 prism layers, and the
-whole sweep was re-run. Thermal resistance rose by **14–37 %** and pressure drop
-fell by **14–21 %**, both in the direction an under-resolved boundary layer
-predicts: too much wall heat transfer, too little wall shear.
-
-| V (m/s) | 1 | 2 | 3 | 4 | 5 | 6 |
-|---|---:|---:|---:|---:|---:|---:|
-| R_th, no prism layers (K/W) | 1.794 | 1.155 | 0.880 | 0.732 | 0.650 | 0.596 |
-| R_th, 8 prism layers (K/W) | 2.050 | 1.460 | 1.177 | 1.000 | 0.878 | 0.787 |
-| change | +14 % | +26 % | +34 % | +37 % | +35 % | +32 % |
-
-The velocity exponent moved from −0.62 to −0.53, and the optimum from **4.5 to
-5.0 m/s** (both at λ = 2.28 K/W²; the first version quoted 2.7 m/s, but from a
-different objective function as well as different data, so the two figures are
-not a like-for-like comparison). The agreement with the independent 1-D model,
-which had been 8–28 % with a consistent one-sided bias, tightened to **±5 % with
-a physically explicable crossover** — an independent confirmation that the
-corrected result is the better one, not merely the newer one.
-
-**3 · Nothing carried an uncertainty.** The grid-convergence study, the y+
-measurement and the transition-model comparison in §4 and §6 are all new.
-
-Detail and dates: [`docs/change_log.md`](docs/change_log.md).
-
----
-
-## 8 · Limitations
+## 7 · Limitations
 
 Ordered by how much they could move the answer.
 
@@ -416,55 +371,7 @@ Ordered by how much they could move the answer.
 11. **Fin geometry was fixed, not optimised.** Pitch, thickness and height were
     chosen as a representative commercial design for a 20 W load; the swept
     variable is velocity alone.
-
 ---
-
-## 9 · Repository layout
-
-```
-README.md
-docs/
-  change_log.md        what was wrong in the first version, how it was found,
-what it cost
-  ansys_setup.md       every solver setting needed to reproduce the runs
-scripts/
-  make_figures.py      regenerates all 11 figures from inline data (Colab-ready)
-  gci.py               grid convergence index, with a self-test against Celik (2008)
-  validation.py        1-D fin-array model and the correlation-choice check
-  flow_regime.py       domain metrics, Reynolds regime, boundary-layer development
-data/
-  velocity_sweep.csv                 the reported sweep, with convergence
-standard deviations and y+
-  grid_convergence.csv               the three-mesh triplet
-  turbulence_model_sensitivity.csv   SST vs Transition SST at 1 and 6 m/s
-  validation.csv                     1-D model against CFD
-  power_law_fits.csv                 fitted exponents and fit error
-  optimum_vs_lambda.csv              optimum velocity against the weighting
-  marginal_return.csv                K/W bought per extra watt of fan power
-  flow_regime.csv, domain_metrics.csv, boundary_layer.csv, near_wall_sizing.csv,
-  inflation_spec.csv, inflation_feasible.csv
-  velocity_sweep_v1_unresolved.csv   the superseded sweep, kept for §7
-figures/   the 11 generated plots (PNG and SVG)
-images/    Fluent exports: geometry, surface temperature, y+, intermittency
-```
-
-## 10 · Reproducing
-
-Everything that does not need a solver runs from the repository:
-
-```bash
-pip install numpy pandas matplotlib
-
-python scripts/gci.py --selftest    # verify the GCI implementation first
-python scripts/gci.py               # grid convergence study
-python scripts/validation.py        # analytical cross-check
-python scripts/flow_regime.py       # domain, regime, boundary-layer development
-python scripts/make_figures.py      # all 11 figures into figures/
-```
-
-`scripts/make_figures.py` carries its own data inline and runs unchanged in
-Google Colab. The Fluent side is documented step by step in
-[`docs/ansys_setup.md`](docs/ansys_setup.md).
 
 ## License
 
